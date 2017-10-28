@@ -1,0 +1,36 @@
+<b:beans xmlns="http://www.springframework.org/schema/security"
+		 xmlns:b="http://www.springframework.org/schema/beans"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 				http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/security
+						http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<http auto-config="true">
+	
+		<headers>
+			<cache-control />
+		</headers>
+			
+		<intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
+		<logout logout-success-url="/welcome" delete-cookies="JSESSIONID" />	
+		<csrf />
+			
+	</http>
+
+  <b:bean name="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+  <b:constructor-arg name="strength" value="10" />
+  </b:bean>
+
+
+
+<authentication-manager>
+	<authentication-provider>
+	<password-encoder ref="bcryptEncoder"/>
+	<user-service>
+		<user name="Pasquale" password="$2a$10$Et.BiWB8ZImHtBHeZdmxE.fii4mohfR2ZorYvf7maPi9BrorXM1Ui" authorities="ROLE_ADMIN" />
+	</user-service>
+</authentication-provider>
+</authentication-manager>
+
+</b:beans>
